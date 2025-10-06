@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Linq;
 using QFramework;
+using UnityEngine;
 
-public class GameRulesSystem : AbstractSystem, IGameRulesSystem
+public class GameRulesSystem : AbstractSystem, IGameRulesSystem, ICanSendCommand
 {
     private IGameModel model;
     
@@ -16,11 +18,20 @@ public class GameRulesSystem : AbstractSystem, IGameRulesSystem
     protected override void OnInit()
     {
         model = this.GetModel<IGameModel>();
-        model.Board
-            .Register(board =>
+        
+        model.Board.Register(board =>
+        {
+            CheckResult();
+        });
+        
+        model.CurrentPlayer.Register(cur =>
+        {
+            if (cur == Player.O)
             {
-                CheckResult();
-            });
+                // StartCoroutine(AIMoveWithDelay(cur, 0.5f));
+                this.SendCommand<PlaceMarkCommand>(new PlaceMarkCommand(GetAIMove(cur))); 
+            }
+        });
     }
 
     public GameResult CheckResult()
@@ -46,7 +57,7 @@ public class GameRulesSystem : AbstractSystem, IGameRulesSystem
         return model.Board.Value[index] == CellState.Empty;
     }
 
-    // 简单 AI：优先能赢的一步，其次阻挡对手，其次随机
+    // AI：优先能赢的一步，其次阻挡对手，其次随机
     public int GetAIMove(Player aiPlayer)
     {
         var board = model.Board.Value;
@@ -116,4 +127,10 @@ public class GameRulesSystem : AbstractSystem, IGameRulesSystem
 
         return -1;  // inaccessible
     }
+    // private IEnumerable<WaitForSeconds> AIMoveWithDelay(Player currentPlayer, float delay)
+    // {
+    //     yield return new WaitForSeconds(delay);
+    //     
+    //     this.SendCommand<PlaceMarkCommand>(new PlaceMarkCommand(GetAIMove(currentPlayer)));
+    // }
 }

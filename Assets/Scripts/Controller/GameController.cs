@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour, IController
             int idx = i;
             cellButtons[i].onClick.AddListener(() =>
             {
-                this.SendCommand(new PlaceMarkCommand(idx, gameModel.CurrentPlayer.Value));
+                this.SendCommand(new PlaceMarkCommand(idx));
             });
         }
 

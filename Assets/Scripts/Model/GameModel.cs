@@ -19,11 +19,6 @@ public class GameModel : AbstractModel, IGameModel
         Board.SetValueWithoutEvent(initialBoard);
         CurrentPlayer.SetValueWithoutEvent(Player.X);
         Result.SetValueWithoutEvent(GameResult.InProgress);
-
-        Board.Register(board =>
-        {
-            
-        });
     }
     
     // internal helper
