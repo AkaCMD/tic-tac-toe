@@ -21,9 +21,30 @@ public class GameModel : AbstractModel, IGameModel
         CurrentPlayer.SetValueWithoutEvent(Player.X);
         Result.SetValueWithoutEvent(GameResult.InProgress);
 
-        CurrentPlayer.Register(player =>
+        Board.Register(board =>
         {
-            Debug.Log("Current Player: " + player.ToString());
+            
         });
+    }
+    
+    // internal helper
+    public void SetCell(int index, CellState state)
+    {
+        var oldBoard = Board.Value;
+        var newBoard = (CellState[])oldBoard.Clone();
+        newBoard[index] = state;
+        Board.Value = newBoard;
+    }
+
+    public void Reset()
+    {
+        Board.Value = new CellState[9];
+        CurrentPlayer.Value = Player.X;
+        Result.Value = GameResult.InProgress;
+    }
+
+    public void SwitchPlayer()
+    {
+        CurrentPlayer.Value = CurrentPlayer.Value == Player.X ? Player.O : Player.X;
     }
 }
