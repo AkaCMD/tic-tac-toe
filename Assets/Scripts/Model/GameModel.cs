@@ -1,5 +1,5 @@
+using System.Linq;
 using QFramework;
-using UnityEngine;
 
 public class GameModel : AbstractModel, IGameModel
 {
@@ -9,10 +9,9 @@ public class GameModel : AbstractModel, IGameModel
     
     protected override void OnInit()
     {
-        int boardSize = 9;
-        CellState[] initialBoard = new CellState[boardSize];
+        CellState[] initialBoard = new CellState[GameConst.BoardSize];
 
-        for (int i = 0; i < boardSize; i++)
+        for (int i = 0; i < GameConst.BoardSize; i++)
         {
             initialBoard[i] = CellState.Empty;
         }
@@ -38,7 +37,7 @@ public class GameModel : AbstractModel, IGameModel
 
     public void Reset()
     {
-        Board.Value = new CellState[9];
+        Board.Value = Enumerable.Repeat(CellState.Empty, GameConst.BoardSize).ToArray();
         CurrentPlayer.Value = Player.X;
         Result.Value = GameResult.InProgress;
     }

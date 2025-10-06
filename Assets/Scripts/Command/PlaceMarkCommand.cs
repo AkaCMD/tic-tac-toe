@@ -14,8 +14,9 @@ public class PlaceMarkCommand : AbstractCommand
     protected override void OnExecute()
     {
         IGameModel model = this.GetModel<IGameModel>();
+        IGameRulesSystem system = this.GetSystem<IGameRulesSystem>();
 
-        if (model.Result.Value != GameResult.InProgress) return;
+        if (!system.IsCellEmpty(mIndex) || model.Result.Value != GameResult.InProgress) return;
         model.SetCell(mIndex, mPlayer == Player.X ? CellState.X : CellState.O);
 
         if (model.Result.Value == GameResult.InProgress)
