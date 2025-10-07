@@ -12,6 +12,8 @@ public class GameModel : AbstractModel, IGameModel
 
     protected override void OnInit()
     {
+        var storage = this.GetUtility<IStorage>();
+        
         CellState[] initialBoard = new CellState[GameConst.BoardSize];
 
         for (int i = 0; i < GameConst.BoardSize; i++)
@@ -19,12 +21,27 @@ public class GameModel : AbstractModel, IGameModel
             initialBoard[i] = CellState.Empty;
         }
         
+        // 设置初始值（不触发事件）
         Board.SetValueWithoutEvent(initialBoard);
         CurrentPlayer.SetValueWithoutEvent(Player.X);
         Result.SetValueWithoutEvent(GameResult.InProgress);
-        XScore.SetValueWithoutEvent(0);
-        OScore.SetValueWithoutEvent(0);
-        DrawCount.SetValueWithoutEvent(0);
+        XScore.SetValueWithoutEvent(storage.LoadInt(nameof(XScore)));
+        OScore.SetValueWithoutEvent(storage.LoadInt(nameof(OScore)));
+        DrawCount.SetValueWithoutEvent(storage.LoadInt(nameof(DrawCount)));
+        
+        // 当数据变更时，存储数据
+        XScore.Register(newScore =>
+        {
+            storage.SaveInt(nameof(XScore), newScore);
+        });
+        OScore.Register(newScore =>
+        {
+            storage.SaveInt(nameof(OScore), newScore);
+        });
+        DrawCount.Register(newCount =>
+        {
+            storage.SaveInt(nameof(DrawCount), newCount);
+        });
     }
     
     // internal helper

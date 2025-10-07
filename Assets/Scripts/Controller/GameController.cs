@@ -24,6 +24,9 @@ public class GameController : MonoBehaviour, IController
         // Add listener
         resetButton.onClick.AddListener(() =>
         {
+            gameModel.XScore.Value = 0;
+            gameModel.OScore.Value = 0;
+            gameModel.DrawCount.Value = 0;
             this.SendCommand<ResetGameCommand>(new ResetGameCommand());
         });
 
@@ -85,5 +88,10 @@ public class GameController : MonoBehaviour, IController
     public IArchitecture GetArchitecture()
     {
         return TicTacToeApp.Interface;
+    }
+
+    private void Destroy()
+    {
+        gameModel = null;
     }
 }
