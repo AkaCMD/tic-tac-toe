@@ -11,5 +11,6 @@ public class TicTacToeApp : Architecture<TicTacToeApp>
         this.RegisterModel<IGameModel>(new GameModel());    
         
         // 注册工具
+        this.RegisterUtility<IStorage>(new Storage());
     }
 }
