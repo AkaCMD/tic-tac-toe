@@ -120,27 +120,17 @@ public class GameRulesSystem : AbstractSystem, IGameRulesSystem, ICanSendCommand
             }
         }
         
-        // 3. 策略选择：按优先级选择位置
-        // 优先选择中心
-        if (board[4] == CellState.Empty)
+        // 3. 随机选择其他位置（并非最佳策略，应该优先中心、角落、边，但是需要平衡游戏）
+        int[] prefer = {4, 0, 2, 6, 8, 1, 3, 5, 7};
+        // foreach (var idx in prefer)
+        // {
+        //     if (board[idx] == CellState.Empty)
+        //         return idx;
+        // }
+        var availableCells = prefer.Where(cellIdx => board[cellIdx] == CellState.Empty).ToList();
+        if (availableCells.Count > 0)
         {
-            return 4;
-        } 
-        
-        // 其次选择角落
-        int[] corners = {0, 4, 6, 8};
-        var availableCorners = corners.Where(corner => board[corner] == CellState.Empty).ToList();
-        if (availableCorners.Count > 0)
-        {
-            return availableCorners[UnityEngine.Random.Range(0, availableCorners.Count)];
-        }
-        
-        // 最后选择边
-        int[] sides = {1, 3, 5, 7};
-        var availableSides = sides.Where(side => board[side] == CellState.Empty).ToList();
-        if (availableSides.Count > 0)
-        {
-            return availableSides[UnityEngine.Random.Range(0, availableSides.Count)];
+            return availableCells[Random.Range(0, availableCells.Count)];
         }
 
         return -1;  // inaccessible
