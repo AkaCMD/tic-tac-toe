@@ -5,6 +5,9 @@ public interface IGameModel : IModel
     BindableProperty<CellState[]> Board { get; }
     BindableProperty<Player> CurrentPlayer { get; }
     BindableProperty<GameResult> Result { get; }
+    BindableProperty<int> XScore { get; }
+    BindableProperty<int> OScore { get; }
+    BindableProperty<int> DrawCount { get; }
 
     void SetCell(int index, CellState state);
     void Reset();

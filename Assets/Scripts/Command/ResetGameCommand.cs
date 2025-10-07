@@ -1,18 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using QFramework;
 
-public class ResetGameCommand : MonoBehaviour
+public class ResetGameCommand : AbstractCommand
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void OnExecute()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+       this.GetModel<IGameModel>().Reset(); 
     }
 }

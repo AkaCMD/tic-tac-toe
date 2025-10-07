@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 275782482}
   - component: {fileID: 275782481}
   m_Layer: 5
-  m_Name: TotalWin
+  m_Name: XScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -835,7 +835,7 @@ GameObject:
   - component: {fileID: 503196147}
   - component: {fileID: 503196146}
   m_Layer: 5
-  m_Name: TotalDraw
+  m_Name: DrawCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1737,7 +1737,7 @@ GameObject:
   - component: {fileID: 1386719348}
   - component: {fileID: 1386719347}
   m_Layer: 5
-  m_Name: TotalWin
+  m_Name: OScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2118,8 +2118,10 @@ MonoBehaviour:
   - {fileID: 1801738320}
   - {fileID: 381063332}
   - {fileID: 550295922}
-  statusText: {fileID: 0}
   resetButton: {fileID: 722629375}
+  xScoreText: {fileID: 275782481}
+  oScoreText: {fileID: 1386719347}
+  drawCountText: {fileID: 503196146}
 --- !u!114 &1636855193 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1041719166881688545, guid: 091f650b043576d4bb2721410a8abbdf, type: 3}

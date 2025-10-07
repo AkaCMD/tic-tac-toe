@@ -1,16 +1,16 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 using QFramework;
 using TMPro;
-using UnityEngine.PlayerLoop;
 
 public class GameController : MonoBehaviour, IController
 {
     // View
     public Button[] cellButtons;
-    public Text statusText;
     public Button resetButton;
+    public TMP_Text xScoreText;
+    public TMP_Text oScoreText;
+    public TMP_Text drawCountText;
     
     // Model
     private IGameModel gameModel;
@@ -18,6 +18,12 @@ public class GameController : MonoBehaviour, IController
     private void Start()
     {
         gameModel = this.GetModel<IGameModel>();
+        
+        resetButton = transform.Find("Reset").GetComponent<Button>();
+        resetButton.onClick.AddListener(() =>
+        {
+            this.SendCommand<ResetGameCommand>(new ResetGameCommand());
+        });
 
         for (int i = 0; i < cellButtons.Length; i++)
         {
@@ -30,11 +36,24 @@ public class GameController : MonoBehaviour, IController
 
         gameModel.Board.RegisterWithInitValue(board =>
         {
-            UpdateView();
+            UpdateBoardView();
+        }).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+        gameModel.XScore.RegisterWithInitValue(value =>
+        {
+            xScoreText.text = value.ToString();
+        }).UnRegisterWhenGameObjectDestroyed(gameObject);
+        gameModel.OScore.RegisterWithInitValue(value =>
+        {
+            oScoreText.text = value.ToString();
+        });
+        gameModel.DrawCount.RegisterWithInitValue(value =>
+        {
+            drawCountText.text = value.ToString();
         }).UnRegisterWhenGameObjectDestroyed(gameObject);
     }
 
-    void UpdateView()
+    void UpdateBoardView()
     {
         for (int i = 0; i < cellButtons.Length; i++)
         {

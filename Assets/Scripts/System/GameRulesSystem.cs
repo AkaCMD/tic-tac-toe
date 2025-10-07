@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Linq;
 using QFramework;
 using UnityEngine;
@@ -21,14 +20,33 @@ public class GameRulesSystem : AbstractSystem, IGameRulesSystem, ICanSendCommand
         
         model.Board.Register(board =>
         {
-            CheckResult();
+            GameResult result = CheckResult();
+            if (result != GameResult.InProgress)
+            {
+                Debug.Log("It's over, " + "Result: " + result);
+                switch(result)
+                {
+                    case GameResult.Draw:
+                        model.DrawCount.Value++;
+                        break;
+                    case GameResult.X_Win:
+                        model.XScore.Value++;
+                        break;
+                    case GameResult.O_Win:
+                        model.OScore.Value++;
+                        break;
+                    default:
+                        Debug.LogWarning("Unknown game result: " + result);
+                        break;
+                }
+            }
+            model.Result.Value = result;
         });
         
         model.CurrentPlayer.Register(cur =>
         {
-            if (cur == Player.O)
+            if (cur == Player.O && model.Result.Value == GameResult.InProgress)
             {
-                // StartCoroutine(AIMoveWithDelay(cur, 0.5f));
                 this.SendCommand<PlaceMarkCommand>(new PlaceMarkCommand(GetAIMove(cur))); 
             }
         });
@@ -127,10 +145,4 @@ public class GameRulesSystem : AbstractSystem, IGameRulesSystem, ICanSendCommand
 
         return -1;  // inaccessible
     }
-    // private IEnumerable<WaitForSeconds> AIMoveWithDelay(Player currentPlayer, float delay)
-    // {
-    //     yield return new WaitForSeconds(delay);
-    //     
-    //     this.SendCommand<PlaceMarkCommand>(new PlaceMarkCommand(GetAIMove(currentPlayer)));
-    // }
 }

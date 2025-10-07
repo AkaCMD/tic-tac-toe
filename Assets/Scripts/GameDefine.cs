@@ -13,7 +13,6 @@ public enum Player
 
 public enum GameResult
 {
-    None,
     X_Win,
     O_Win,
     Draw,

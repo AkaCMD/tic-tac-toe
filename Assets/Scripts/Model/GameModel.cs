@@ -6,7 +6,10 @@ public class GameModel : AbstractModel, IGameModel
     public BindableProperty<CellState[]> Board { get; } = new BindableProperty<CellState[]>();
     public BindableProperty<Player> CurrentPlayer { get; } = new BindableProperty<Player>();
     public BindableProperty<GameResult> Result { get; } = new BindableProperty<GameResult>();
-    
+    public BindableProperty<int> XScore { get; } = new BindableProperty<int>();
+    public BindableProperty<int> OScore { get; } = new BindableProperty<int>();
+    public BindableProperty<int> DrawCount { get; } = new BindableProperty<int>();
+
     protected override void OnInit()
     {
         CellState[] initialBoard = new CellState[GameConst.BoardSize];
@@ -19,6 +22,9 @@ public class GameModel : AbstractModel, IGameModel
         Board.SetValueWithoutEvent(initialBoard);
         CurrentPlayer.SetValueWithoutEvent(Player.X);
         Result.SetValueWithoutEvent(GameResult.InProgress);
+        XScore.SetValueWithoutEvent(0);
+        OScore.SetValueWithoutEvent(0);
+        DrawCount.SetValueWithoutEvent(0);
     }
     
     // internal helper
