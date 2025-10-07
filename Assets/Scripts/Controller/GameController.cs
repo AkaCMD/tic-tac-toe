@@ -20,6 +20,8 @@ public class GameController : MonoBehaviour, IController
         gameModel = this.GetModel<IGameModel>();
         
         resetButton = transform.Find("Reset").GetComponent<Button>();
+        
+        // Add listener
         resetButton.onClick.AddListener(() =>
         {
             this.SendCommand<ResetGameCommand>(new ResetGameCommand());
@@ -30,10 +32,17 @@ public class GameController : MonoBehaviour, IController
             int idx = i;
             cellButtons[i].onClick.AddListener(() =>
             {
+                // 已经下完一局后点击棋盘就自动开始下一局
+                if (gameModel.Result.Value != GameResult.InProgress)
+                {
+                    this.SendCommand<ResetGameCommand>(new ResetGameCommand());
+                    return;
+                }
                 this.SendCommand(new PlaceMarkCommand(idx));
             });
         }
 
+        // Update view
         gameModel.Board.RegisterWithInitValue(board =>
         {
             UpdateBoardView();
