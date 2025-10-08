@@ -1,5 +1,9 @@
 using QFramework;
 
+/// <summary>
+/// 处理玩家或 AI 在棋盘上放置棋子的命令
+/// 验证位置是否可用并更新游戏状态
+/// </summary>
 public class PlaceMarkCommand : AbstractCommand
 {
     private readonly int mIndex;

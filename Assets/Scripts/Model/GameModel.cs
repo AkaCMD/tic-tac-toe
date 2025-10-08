@@ -1,6 +1,10 @@
 using System.Linq;
 using QFramework;
 
+/// <summary>
+/// 井字棋游戏数据模型
+/// 管理游戏状态、玩家信息、棋盘数据和统计信息
+/// </summary>
 public class GameModel : AbstractModel, IGameModel
 {
     public BindableProperty<CellState[]> Board { get; } = new BindableProperty<CellState[]>();

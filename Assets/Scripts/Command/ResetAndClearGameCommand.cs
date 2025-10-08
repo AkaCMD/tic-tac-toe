@@ -1,5 +1,9 @@
 ﻿using QFramework;
 
+/// <summary>
+/// 重置并清除游戏统计数据的命令
+/// 将所有分数和计数器重置为零，并重新开始新游戏
+/// </summary>
 public class ResetAndClearGameCommand : AbstractCommand
 {
     protected override void OnExecute()

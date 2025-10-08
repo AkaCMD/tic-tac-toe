@@ -3,6 +3,10 @@ using UnityEngine.UI;
 using QFramework;
 using TMPro;
 
+/// <summary>
+/// 井字棋游戏的主要控制器
+/// 管理 UI 交互、处理用户输入并更新游戏视图
+/// </summary>
 public class GameController : MonoBehaviour, IController
 {
     // View

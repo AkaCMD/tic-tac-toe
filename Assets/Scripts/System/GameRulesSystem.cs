@@ -2,7 +2,11 @@ using System.Linq;
 using QFramework;
 using UnityEngine;
 
-public class GameRulesSystem : AbstractSystem, IGameRulesSystem, ICanSendCommand
+/// <summary>
+/// 游戏规则系统
+/// 处理游戏逻辑，包括胜负判定、AI 移动决策和游戏状态检查
+/// </summary>
+public class GameRulesSystem : AbstractSystem, IGameRulesSystem
 {
     private IGameModel model;
     

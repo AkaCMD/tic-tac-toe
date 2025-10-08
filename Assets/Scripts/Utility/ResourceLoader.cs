@@ -5,6 +5,10 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
+/// <summary>
+/// 资源加载工具类
+/// 负责从 Addressables 系统加载和缓存游戏资源，如精灵图片
+/// </summary>
 public class ResourceLoader : IResourceLoader
 {
     private readonly Dictionary<string, Object> cache = new();

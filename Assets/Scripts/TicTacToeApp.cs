@@ -1,6 +1,10 @@
 using QFramework;
 using UnityEngine;
 
+/// <summary>
+/// 井字棋游戏的架构入口点
+/// 负责注册所有系统、模型和工具类，并提供全局访问接口
+/// </summary>
 public class TicTacToeApp : Architecture<TicTacToeApp>
 {
     protected override void Init()
