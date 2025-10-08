@@ -7,8 +7,8 @@ public class GameModel : AbstractModel, IGameModel
     public BindableProperty<Player> CurrentPlayer { get; } = new BindableProperty<Player>();
     public BindableProperty<Player> AIPlayer { get; } = new BindableProperty<Player>();
     public BindableProperty<GameResult> Result { get; } = new BindableProperty<GameResult>();
-    public BindableProperty<int> XScore { get; } = new BindableProperty<int>();
-    public BindableProperty<int> OScore { get; } = new BindableProperty<int>();
+    public BindableProperty<int> PlayerScore { get; } = new BindableProperty<int>();
+    public BindableProperty<int> AIScore { get; } = new BindableProperty<int>();
     public BindableProperty<int> DrawCount { get; } = new BindableProperty<int>();
 
     protected override void OnInit()
@@ -25,28 +25,24 @@ public class GameModel : AbstractModel, IGameModel
         // 设置初始值（不触发事件）
         Board.SetValueWithoutEvent(initialBoard);
         CurrentPlayer.SetValueWithoutEvent(Player.X);
-        AIPlayer.SetValueWithoutEvent(storage.LoadEnum(nameof(AIPlayer), Player.O));
         Result.SetValueWithoutEvent(GameResult.InProgress);
-        XScore.SetValueWithoutEvent(storage.LoadInt(nameof(XScore)));
-        OScore.SetValueWithoutEvent(storage.LoadInt(nameof(OScore)));
+        PlayerScore.SetValueWithoutEvent(storage.LoadInt(nameof(PlayerScore)));
+        AIScore.SetValueWithoutEvent(storage.LoadInt(nameof(AIScore)));
         DrawCount.SetValueWithoutEvent(storage.LoadInt(nameof(DrawCount)));
+        AIPlayer.SetValueWithoutEvent(Player.O);
         
         // 当数据变更时，存储数据
-        XScore.Register(newScore =>
+        PlayerScore.Register(newScore =>
         {
-            storage.SaveInt(nameof(XScore), newScore);
+            storage.SaveInt(nameof(PlayerScore), newScore);
         });
-        OScore.Register(newScore =>
+        AIScore.Register(newScore =>
         {
-            storage.SaveInt(nameof(OScore), newScore);
+            storage.SaveInt(nameof(AIScore), newScore);
         });
         DrawCount.Register(newCount =>
         {
             storage.SaveInt(nameof(DrawCount), newCount);
-        });
-        AIPlayer.Register(ai =>
-        {
-            storage.SaveEnum(nameof(AIPlayer), ai);
         });
     }
     
@@ -62,7 +58,7 @@ public class GameModel : AbstractModel, IGameModel
     public void Reset()
     {
         Board.Value = Enumerable.Repeat(CellState.Empty, GameConst.BoardSize).ToArray();
-        CurrentPlayer.Value = Player.X;
+        CurrentPlayer.Value = Player.X; // X goes first
         Result.Value = GameResult.InProgress;
     }
 

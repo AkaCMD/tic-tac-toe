@@ -6,8 +6,8 @@ public interface IGameModel : IModel
     BindableProperty<Player> CurrentPlayer { get; }
     BindableProperty<Player> AIPlayer { get; }
     BindableProperty<GameResult> Result { get; }
-    BindableProperty<int> XScore { get; }
-    BindableProperty<int> OScore { get; }
+    BindableProperty<int> PlayerScore { get; }
+    BindableProperty<int> AIScore { get; }
     BindableProperty<int> DrawCount { get; }
 
     void SetCell(int index, CellState state);

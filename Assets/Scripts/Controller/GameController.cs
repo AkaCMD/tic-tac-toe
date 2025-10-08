@@ -50,6 +50,11 @@ public class GameController : MonoBehaviour, IController
                     this.SendCommand<ResetGameCommand>(new ResetGameCommand());
                     return;
                 }
+                if (gameModel.CurrentPlayer.Value == gameModel.AIPlayer.Value)
+                {
+                    Debug.LogWarning("It's AI's turn!");
+                    return;
+                }
                 this.SendCommand(new PlaceMarkCommand(idx));
             });
         }
@@ -60,28 +65,15 @@ public class GameController : MonoBehaviour, IController
             UpdateBoardView();
         }).UnRegisterWhenGameObjectDestroyed(gameObject);
 
-        // Update score based on AI's mark
-        gameModel.XScore.RegisterWithInitValue(value =>
+        // Update scores
+        gameModel.PlayerScore.RegisterWithInitValue(value =>
         {
-            if (gameModel.AIPlayer.Value == Player.O)
-            {
-                playerScoreText.text = value.ToString();
-            }
-            else
-            {
-                aiScoreText.text = value.ToString();
-            }
+            playerScoreText.text = value.ToString();
         }).UnRegisterWhenGameObjectDestroyed(gameObject);
-        gameModel.OScore.RegisterWithInitValue(value =>
+
+        gameModel.AIScore.RegisterWithInitValue(value =>
         {
-            if (gameModel.AIPlayer.Value == Player.O)
-            {
-                aiInfoText.text = value.ToString();
-            }
-            else
-            {
-                playerScoreText.text = value.ToString();
-            }
+            aiScoreText.text = value.ToString();
         }).UnRegisterWhenGameObjectDestroyed(gameObject);
         gameModel.DrawCount.RegisterWithInitValue(value =>
         {
@@ -91,8 +83,15 @@ public class GameController : MonoBehaviour, IController
         {
             var aiMark = gameModel.AIPlayer.Value;
             var playerMark = aiMark == Player.O ? Player.X : Player.O;
-            playerInfoText.text = playerMark.ToString() + ":Player";
-            aiInfoText.text = aiMark.ToString() + ":Computer";
+            playerInfoText.text = $"{playerMark}:Player";
+            aiInfoText.text = $"{aiMark}:Computer";
+        }).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+        this.RegisterEvent<GameRulesSystem.AIMoveEvent>(e =>
+        {
+            Debug.Log("AI Move Event");
+            this.SendCommand<PlaceMarkCommand>(new PlaceMarkCommand(this.GetSystem<IGameRulesSystem>().GetAIMove()));
+            UpdateBoardView();
         }).UnRegisterWhenGameObjectDestroyed(gameObject);
     }
 

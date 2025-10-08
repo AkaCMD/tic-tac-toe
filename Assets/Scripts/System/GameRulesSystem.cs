@@ -30,10 +30,16 @@ public class GameRulesSystem : AbstractSystem, IGameRulesSystem, ICanSendCommand
                         model.DrawCount.Value++;
                         break;
                     case GameResult.X_Win:
-                        model.XScore.Value++;
+                        if (model.AIPlayer.Value == Player.X)
+                            model.AIScore.Value++;
+                        else
+                            model.PlayerScore.Value++;
                         break;
                     case GameResult.O_Win:
-                        model.OScore.Value++;
+                        if (model.AIPlayer.Value == Player.O)
+                            model.AIScore.Value++;
+                        else
+                            model.PlayerScore.Value++;
                         break;
                     default:
                         Debug.LogWarning("Unknown game result: " + result);
@@ -47,7 +53,7 @@ public class GameRulesSystem : AbstractSystem, IGameRulesSystem, ICanSendCommand
         {
             if (cur == model.AIPlayer.Value && model.Result.Value == GameResult.InProgress)
             {
-                this.SendCommand<PlaceMarkCommand>(new PlaceMarkCommand(GetAIMove())); 
+                this.SendEvent<AIMoveEvent>();
             }
         });
     }
@@ -136,4 +142,6 @@ public class GameRulesSystem : AbstractSystem, IGameRulesSystem, ICanSendCommand
 
         return -1;  // inaccessible
     }
+
+    public struct AIMoveEvent { }
 }
