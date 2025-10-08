@@ -4,6 +4,7 @@ public interface IGameModel : IModel
 { 
     BindableProperty<CellState[]> Board { get; }
     BindableProperty<Player> CurrentPlayer { get; }
+    BindableProperty<Player> AIPlayer { get; }
     BindableProperty<GameResult> Result { get; }
     BindableProperty<int> XScore { get; }
     BindableProperty<int> OScore { get; }

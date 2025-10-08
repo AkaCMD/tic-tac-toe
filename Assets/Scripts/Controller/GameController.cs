@@ -7,8 +7,9 @@ public class GameController : MonoBehaviour, IController
 {
     // View
     public Button[] cellButtons;
-    public Button resetButton;
-    public TMP_Text xScoreText, oScoreText, drawCountText;
+    public Button resetButton, reverseButton;
+    public TMP_Text playerScoreText, aiScoreText, drawCountText;
+    public TMP_Text playerInfoText, aiInfoText;
 
     private Sprite spriteX, spriteO;
     // Model
@@ -23,14 +24,18 @@ public class GameController : MonoBehaviour, IController
         loader.LoadSprite("x", sprite => spriteX = sprite);
         loader.LoadSprite("o", sprite => spriteO = sprite);
         
-        resetButton = transform.Find("Reset").GetComponent<Button>();
+        resetButton = transform.Find("ResetBtn").GetComponent<Button>();
+        reverseButton = transform.Find("ReverseBtn").GetComponent<Button>();
         
         // Add listener
         resetButton.onClick.AddListener(() =>
         {
-            gameModel.XScore.Value = 0;
-            gameModel.OScore.Value = 0;
-            gameModel.DrawCount.Value = 0;
+            this.SendCommand<ResetAndClearGameCommand>(new ResetAndClearGameCommand());
+        });
+        
+        reverseButton.onClick.AddListener(() =>
+        {
+            this.SendCommand<SwitchSidesCommand>(new SwitchSidesCommand());
             this.SendCommand<ResetGameCommand>(new ResetGameCommand());
         });
 
@@ -55,17 +60,39 @@ public class GameController : MonoBehaviour, IController
             UpdateBoardView();
         }).UnRegisterWhenGameObjectDestroyed(gameObject);
 
+        // Update score based on AI's mark
         gameModel.XScore.RegisterWithInitValue(value =>
         {
-            xScoreText.text = value.ToString();
+            if (gameModel.AIPlayer.Value == Player.O)
+            {
+                playerScoreText.text = value.ToString();
+            }
+            else
+            {
+                aiScoreText.text = value.ToString();
+            }
         }).UnRegisterWhenGameObjectDestroyed(gameObject);
         gameModel.OScore.RegisterWithInitValue(value =>
         {
-            oScoreText.text = value.ToString();
-        });
+            if (gameModel.AIPlayer.Value == Player.O)
+            {
+                aiInfoText.text = value.ToString();
+            }
+            else
+            {
+                playerScoreText.text = value.ToString();
+            }
+        }).UnRegisterWhenGameObjectDestroyed(gameObject);
         gameModel.DrawCount.RegisterWithInitValue(value =>
         {
             drawCountText.text = value.ToString();
+        }).UnRegisterWhenGameObjectDestroyed(gameObject);
+        gameModel.AIPlayer.RegisterWithInitValue(ai =>
+        {
+            var aiMark = gameModel.AIPlayer.Value;
+            var playerMark = aiMark == Player.O ? Player.X : Player.O;
+            playerInfoText.text = playerMark.ToString() + ":Player";
+            aiInfoText.text = aiMark.ToString() + ":Computer";
         }).UnRegisterWhenGameObjectDestroyed(gameObject);
     }
 

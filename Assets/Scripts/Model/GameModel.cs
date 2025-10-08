@@ -5,6 +5,7 @@ public class GameModel : AbstractModel, IGameModel
 {
     public BindableProperty<CellState[]> Board { get; } = new BindableProperty<CellState[]>();
     public BindableProperty<Player> CurrentPlayer { get; } = new BindableProperty<Player>();
+    public BindableProperty<Player> AIPlayer { get; } = new BindableProperty<Player>();
     public BindableProperty<GameResult> Result { get; } = new BindableProperty<GameResult>();
     public BindableProperty<int> XScore { get; } = new BindableProperty<int>();
     public BindableProperty<int> OScore { get; } = new BindableProperty<int>();
@@ -24,6 +25,7 @@ public class GameModel : AbstractModel, IGameModel
         // 设置初始值（不触发事件）
         Board.SetValueWithoutEvent(initialBoard);
         CurrentPlayer.SetValueWithoutEvent(Player.X);
+        AIPlayer.SetValueWithoutEvent(storage.LoadEnum(nameof(AIPlayer), Player.O));
         Result.SetValueWithoutEvent(GameResult.InProgress);
         XScore.SetValueWithoutEvent(storage.LoadInt(nameof(XScore)));
         OScore.SetValueWithoutEvent(storage.LoadInt(nameof(OScore)));
@@ -41,6 +43,10 @@ public class GameModel : AbstractModel, IGameModel
         DrawCount.Register(newCount =>
         {
             storage.SaveInt(nameof(DrawCount), newCount);
+        });
+        AIPlayer.Register(ai =>
+        {
+            storage.SaveEnum(nameof(AIPlayer), ai);
         });
     }
     

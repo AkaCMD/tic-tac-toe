@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 98918118}
   - component: {fileID: 98918117}
   m_Layer: 5
-  m_Name: Reverse
+  m_Name: ReverseBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -458,7 +458,7 @@ GameObject:
   - component: {fileID: 275782482}
   - component: {fileID: 275782481}
   m_Layer: 5
-  m_Name: XScore
+  m_Name: PlayerScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -592,7 +592,7 @@ GameObject:
   - component: {fileID: 279421852}
   - component: {fileID: 279421851}
   m_Layer: 5
-  m_Name: X
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1556,7 +1556,7 @@ GameObject:
   - component: {fileID: 722629376}
   - component: {fileID: 722629375}
   m_Layer: 5
-  m_Name: Reset
+  m_Name: ResetBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1857,7 +1857,7 @@ GameObject:
   - component: {fileID: 1386719348}
   - component: {fileID: 1386719347}
   m_Layer: 5
-  m_Name: OScore
+  m_Name: AIScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2240,9 +2240,12 @@ MonoBehaviour:
   - {fileID: 381063332}
   - {fileID: 550295922}
   resetButton: {fileID: 722629375}
-  xScoreText: {fileID: 275782481}
-  oScoreText: {fileID: 1386719347}
+  reverseButton: {fileID: 0}
+  playerScoreText: {fileID: 275782481}
+  aiScoreText: {fileID: 1386719347}
   drawCountText: {fileID: 503196146}
+  playerInfoText: {fileID: 279421851}
+  aiInfoText: {fileID: 1896856328}
 --- !u!114 &1636855193 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1041719166881688545, guid: 091f650b043576d4bb2721410a8abbdf, type: 3}
@@ -2492,7 +2495,7 @@ GameObject:
   - component: {fileID: 1896856329}
   - component: {fileID: 1896856328}
   m_Layer: 5
-  m_Name: O
+  m_Name: AI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

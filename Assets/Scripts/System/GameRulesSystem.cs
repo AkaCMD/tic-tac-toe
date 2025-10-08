@@ -43,11 +43,11 @@ public class GameRulesSystem : AbstractSystem, IGameRulesSystem, ICanSendCommand
             model.Result.Value = result;
         });
         
-        model.CurrentPlayer.Register(cur =>
+        model.CurrentPlayer.RegisterWithInitValue(cur =>
         {
-            if (cur == Player.O && model.Result.Value == GameResult.InProgress)
+            if (cur == model.AIPlayer.Value && model.Result.Value == GameResult.InProgress)
             {
-                this.SendCommand<PlaceMarkCommand>(new PlaceMarkCommand(GetAIMove(cur))); 
+                this.SendCommand<PlaceMarkCommand>(new PlaceMarkCommand(GetAIMove())); 
             }
         });
     }
@@ -76,9 +76,10 @@ public class GameRulesSystem : AbstractSystem, IGameRulesSystem, ICanSendCommand
     }
 
     // AI：优先能赢的一步，其次阻挡对手，其次随机
-    public int GetAIMove(Player aiPlayer)
+    public int GetAIMove()
     {
         var board = model.Board.Value;
+        var aiPlayer = model.AIPlayer.Value;
         CellState myMark = (aiPlayer == Player.X) ? CellState.X : CellState.O;
         CellState oppMark = (aiPlayer == Player.X) ? CellState.O : CellState.X;
         
