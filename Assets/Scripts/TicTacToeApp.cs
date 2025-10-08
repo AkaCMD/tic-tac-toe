@@ -12,5 +12,6 @@ public class TicTacToeApp : Architecture<TicTacToeApp>
         
         // 注册工具
         this.RegisterUtility<IStorage>(new Storage());
+        this.RegisterUtility<IResourceLoader>(new ResourceLoader());
     }
 }

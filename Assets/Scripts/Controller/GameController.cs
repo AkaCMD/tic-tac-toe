@@ -8,16 +8,20 @@ public class GameController : MonoBehaviour, IController
     // View
     public Button[] cellButtons;
     public Button resetButton;
-    public TMP_Text xScoreText;
-    public TMP_Text oScoreText;
-    public TMP_Text drawCountText;
-    
+    public TMP_Text xScoreText, oScoreText, drawCountText;
+
+    private Sprite spriteX, spriteO;
     // Model
     private IGameModel gameModel;
 
     private void Start()
     {
         gameModel = this.GetModel<IGameModel>();
+        var loader = this.GetUtility<IResourceLoader>();
+        
+        // Load assets
+        loader.LoadSprite("x", sprite => spriteX = sprite);
+        loader.LoadSprite("o", sprite => spriteO = sprite);
         
         resetButton = transform.Find("Reset").GetComponent<Button>();
         
@@ -71,15 +75,17 @@ public class GameController : MonoBehaviour, IController
         {
             if (cellButtons[i] != null)
             {
-                var text = cellButtons[i].GetComponentInChildren<TMP_Text>();
-                if (text != null)
+                var image = cellButtons[i].transform.GetChild(0).GetComponent<Image>();
+                if (image != null)
                 {
-                    text.text = gameModel.Board.Value[i] switch
+                    var sprite = gameModel.Board.Value[i] switch
                     {
-                        CellState.X => "X",
-                        CellState.O => "O",
-                        _ => ""
+                        CellState.X => spriteX,
+                        CellState.O => spriteO,
+                        _ => null
                     };
+                    image.sprite = sprite;
+                    image.enabled = (sprite != null);
                 }
             }
         }

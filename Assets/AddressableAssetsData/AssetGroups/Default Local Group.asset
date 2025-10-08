@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: d098cb8518e84da429e54eabe84430bb
+  m_SerializeEntries:
+  - m_GUID: 9c5db860a5439704eb58c83f73c16c78
+    m_Address: Assets/Textures/Cross.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - x
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fcc38814f32b624478092da13d605206
+    m_Address: Assets/Textures/Cricle.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - o
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 53d6477f434c9bc4ab81697dd8a97830, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 27ab188d5c84bc1468015747df9b20f8, type: 2}
+    - {fileID: 11400000, guid: 840f1806012ffdd409caf870a8102ac1, type: 2}
